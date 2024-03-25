@@ -43,24 +43,15 @@ char* Reader::getSubstring(const char* str, int start, int length)
 // Translate the all-caps input into human-readable dice rolls
 const char* Reader::translate(const char* input)
 {
+	// Sanity check
 	if (input == nullptr)
 	{
 		return "Invalid roll entered";
 	}
 	
-	// Simple roll translation: [2d20] or [d10]
-	// Get first instance of "D"
-	// if all text before it is a number
-	//		that is number of dice
-	// if no text before it
-	//		number of dice is 1
-	// else
-	//		invalid roll. fail.
-
 	int diceCount;
-
 	const char* firstD = std::strchr(input, 'D');
-	if (firstD == nullptr)
+	if (firstD == nullptr) // No 'D' in text
 	{
 		return "Invalid roll entered";
 	}
@@ -68,15 +59,16 @@ const char* Reader::translate(const char* input)
 	{
 		int firstDIndex = firstD - input;
 
-		if (firstDIndex == 0)
+		if (firstDIndex == 0) // 'D' is the first character
 		{
 			diceCount = 1;
 			return "1";
 		}
-		else
+		else // 'D' is not the first character
 		{
 			const char* diceCountStr = getSubstring(input, 0, firstDIndex);
 
+			// Get number of dice to roll
 			try
 			{
 				diceCount = std::stoi(diceCountStr);
