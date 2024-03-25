@@ -49,7 +49,7 @@ const char* Reader::translate(const char* input)
 		return "Invalid roll entered";
 	}
 	
-	int diceCount;
+	int diceCount, diceSides;
 	const char* firstD = std::strchr(input, 'D');
 	if (firstD == nullptr) // No 'D' in text
 	{
@@ -62,13 +62,12 @@ const char* Reader::translate(const char* input)
 		if (firstDIndex == 0) // 'D' is the first character
 		{
 			diceCount = 1;
-			return "1";
+			//return "1";
 		}
 		else // 'D' is not the first character
 		{
-			const char* diceCountStr = getSubstring(input, 0, firstDIndex);
-
 			// Get number of dice to roll
+			const char* diceCountStr = getSubstring(input, 0, firstDIndex);
 			try
 			{
 				diceCount = std::stoi(diceCountStr);
@@ -81,8 +80,23 @@ const char* Reader::translate(const char* input)
 			{
 				std::cerr << "Out of range error: " << oor.what() << std::endl;
 			}
-
-			return diceCountStr;
 		}
+
+		// Get dice number of sides
+		const char* diceSidesStr = getSubstring(input, firstDIndex + 1, std::strlen(input) - firstDIndex);
+		try
+		{
+			diceSides = std::stoi(diceSidesStr);
+		}
+		catch (const std::invalid_argument& ia)
+		{
+			std::cerr << "Invalid argument: " << ia.what() << std::endl;
+		}
+		catch (const std::out_of_range& oor)
+		{
+			std::cerr << "Out of range error: " << oor.what() << std::endl;
+		}
+
+		return diceSidesStr;
 	}
 }
