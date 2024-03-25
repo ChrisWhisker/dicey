@@ -1,6 +1,6 @@
 #include "Reader.h"
-
 #include <iostream>
+#include <string>
 
 // Return a copy of the input string with its letters in all caps
 const char* Reader::toUpper(const char* input)
@@ -18,12 +18,34 @@ const char* Reader::toUpper(const char* input)
 	return modified;
 }
 
+// Function to get a substring of a C-style string
+char* Reader::getSubstring(const char* str, int start, int length)
+{
+	if (str == nullptr || start < 0 || length < 0) // Check for null pointer and invalid start/length
+		return nullptr;
+
+	int strLength = strlen(str);
+	if (start >= strLength) // Check if start index is out of bounds
+		return nullptr;
+
+	// Adjust length if it exceeds the length of the remaining string
+	length = std::min(length, strLength - start);
+
+	char* sub = new char[length + 1]; // Allocate memory for the substring (+1 for null terminator)
+
+	// Copy characters from the original string to the substring
+	std::memcpy(sub, str + start, length);
+	sub[length] = '\0'; // Null-terminate the substring
+
+	return sub;
+}
+
 // Translate the all-caps input into human-readable dice rolls
 const char* Reader::translate(const char* input)
 {
 	if (input == nullptr)
 	{
-		return "";
+		return "Invalid roll entered";
 	}
 	
 	// Simple roll translation: [2d20] or [d10]
@@ -35,18 +57,40 @@ const char* Reader::translate(const char* input)
 	// else
 	//		invalid roll. fail.
 
-	const char* firstD = std::strchr(input, 'D');
+	int diceCount;
 
+	const char* firstD = std::strchr(input, 'D');
 	if (firstD == nullptr)
 	{
-		return "";
-	}
-	else if (firstD - input == 0)
-	{
-		return "D is the first character.";
+		return "Invalid roll entered";
 	}
 	else
 	{
-		return "D is NOT the first character.";
+		int firstDIndex = firstD - input;
+
+		if (firstDIndex == 0)
+		{
+			diceCount = 1;
+			return "1";
+		}
+		else
+		{
+			const char* diceCountStr = getSubstring(input, 0, firstDIndex);
+
+			try
+			{
+				diceCount = std::stoi(diceCountStr);
+			}
+			catch (const std::invalid_argument& ia)
+			{
+				std::cerr << "Invalid argument: " << ia.what() << std::endl;
+			}
+			catch (const std::out_of_range& oor)
+			{
+				std::cerr << "Out of range error: " << oor.what() << std::endl;
+			}
+
+			return diceCountStr;
+		}
 	}
 }
