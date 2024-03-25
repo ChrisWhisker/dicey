@@ -11,6 +11,7 @@ using std::cout;
 int main()
 {
     Reader reader;
-    const char* upper = reader.toUpper("Hello, World!\n");
-    cout << upper;
+    const char* upper = reader.toUpper("d6");
+    cout << upper << std::endl;
+    cout << reader.translate(upper);
 }
