@@ -6,13 +6,11 @@
 //#include <cstring>
 //#include <cctype>
 
-
 using std::cout;
 
 int main()
 {
     Reader reader;
     const char* upper = reader.toUpper("Hello, World!\n");
-    
     cout << upper;
 }
