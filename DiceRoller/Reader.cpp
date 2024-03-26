@@ -45,22 +45,22 @@ char* Reader::getSubstring(const char* str, int start, int length)
 }
 
 // Translate the all-caps input into human-readable dice rolls
-const char* Reader::translate(const char* input)
+const char* Reader::roll(const char* rollStr)
 {
 	// Sanity check
-	if (input == nullptr)
+	if (rollStr == nullptr)
 	{
 		return "Invalid roll entered.";
 	}
 
 	int diceCount, diceSides;
-	const char* firstD = std::strchr(input, 'D');
+	const char* firstD = std::strchr(rollStr, 'D');
 	if (firstD == nullptr) // No 'D' in text
 	{
 		return "Invalid roll entered.";
 	}
 
-	int firstDIndex = firstD - input;
+	int firstDIndex = firstD - rollStr;
 
 	if (firstDIndex == 0) // 'D' is the first character
 	{
@@ -70,7 +70,7 @@ const char* Reader::translate(const char* input)
 	else // 'D' is not the first character
 	{
 		// Get number of dice to roll
-		const char* diceCountStr = getSubstring(input, 0, firstDIndex);
+		const char* diceCountStr = getSubstring(rollStr, 0, firstDIndex);
 		try
 		{
 			diceCount = std::stoi(diceCountStr);
@@ -91,7 +91,7 @@ const char* Reader::translate(const char* input)
 	}
 
 	// Get dice number of sides
-	const char* diceSidesStr = getSubstring(input, firstDIndex + 1, std::strlen(input) - firstDIndex);
+	const char* diceSidesStr = getSubstring(rollStr, firstDIndex + 1, std::strlen(rollStr) - firstDIndex);
 	try
 	{
 		diceSides = std::stoi(diceSidesStr);

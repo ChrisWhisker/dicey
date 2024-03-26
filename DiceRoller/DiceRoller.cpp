@@ -9,5 +9,5 @@ int main()
 {
     Reader reader;
     const char* upper = reader.toUpper("10d20");
-    reader.translate(upper);
+    reader.roll(upper);
 }
