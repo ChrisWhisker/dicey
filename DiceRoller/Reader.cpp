@@ -1,6 +1,10 @@
 #include "Reader.h"
 #include <iostream>
 #include <string>
+#include <random>
+
+using std::endl;
+using std::cout;
 
 // Return a copy of the input string with its letters in all caps
 const char* Reader::toUpper(const char* input)
@@ -46,57 +50,99 @@ const char* Reader::translate(const char* input)
 	// Sanity check
 	if (input == nullptr)
 	{
-		return "Invalid roll entered";
+		return "Invalid roll entered.";
 	}
-	
+
 	int diceCount, diceSides;
 	const char* firstD = std::strchr(input, 'D');
 	if (firstD == nullptr) // No 'D' in text
 	{
-		return "Invalid roll entered";
+		return "Invalid roll entered.";
 	}
-	else
+
+	int firstDIndex = firstD - input;
+
+	if (firstDIndex == 0) // 'D' is the first character
 	{
-		int firstDIndex = firstD - input;
-
-		if (firstDIndex == 0) // 'D' is the first character
-		{
-			diceCount = 1;
-			//return "1";
-		}
-		else // 'D' is not the first character
-		{
-			// Get number of dice to roll
-			const char* diceCountStr = getSubstring(input, 0, firstDIndex);
-			try
-			{
-				diceCount = std::stoi(diceCountStr);
-			}
-			catch (const std::invalid_argument& ia)
-			{
-				std::cerr << "Invalid argument: " << ia.what() << std::endl;
-			}
-			catch (const std::out_of_range& oor)
-			{
-				std::cerr << "Out of range error: " << oor.what() << std::endl;
-			}
-		}
-
-		// Get dice number of sides
-		const char* diceSidesStr = getSubstring(input, firstDIndex + 1, std::strlen(input) - firstDIndex);
+		diceCount = 1;
+		//return "1";
+	}
+	else // 'D' is not the first character
+	{
+		// Get number of dice to roll
+		const char* diceCountStr = getSubstring(input, 0, firstDIndex);
 		try
 		{
-			diceSides = std::stoi(diceSidesStr);
+			diceCount = std::stoi(diceCountStr);
+
+			if (diceCount < 1)
+			{
+				return "Invalid number of dice.";
+			}
 		}
 		catch (const std::invalid_argument& ia)
 		{
-			std::cerr << "Invalid argument: " << ia.what() << std::endl;
+			std::cerr << "Invalid argument: " << ia.what() << endl;
 		}
 		catch (const std::out_of_range& oor)
 		{
-			std::cerr << "Out of range error: " << oor.what() << std::endl;
+			std::cerr << "Out of range error: " << oor.what() << endl;
 		}
-
-		return diceSidesStr;
 	}
+
+	// Get dice number of sides
+	const char* diceSidesStr = getSubstring(input, firstDIndex + 1, std::strlen(input) - firstDIndex);
+	try
+	{
+		diceSides = std::stoi(diceSidesStr);
+
+		if (diceSides < 1)
+		{
+			return "Invalid number of sides.";
+		}
+	}
+	catch (const std::invalid_argument& ia)
+	{
+		std::cerr << "Invalid argument: " << ia.what() << endl;
+	}
+	catch (const std::out_of_range& oor)
+	{
+		std::cerr << "Out of range error: " << oor.what() << endl;
+	}
+
+	int rolled = roll(diceCount, diceSides);
+	cout << "You rolled: " << rolled << endl;
+
+	return diceSidesStr;
+}
+
+int Reader::roll(int diceCount, int sides)
+{
+	int total = 0;
+
+	for (int i = 0; i < diceCount; i++)
+	{
+		int roll = rollDie(sides);
+		cout << "Die " << i << " rolled " << roll << endl;
+		total += roll;
+	}
+
+	return total;
+}
+
+int Reader::rollDie(int sides)
+{
+	// Create a random device to seed the random number generator
+	std::random_device rd;
+
+	// Create a random number engine using the random device as the seed
+	std::mt19937 gen(rd());
+
+	// Create a uniform distribution for integers from 1 to 20
+	std::uniform_int_distribution<> dis(1, sides);
+
+	// Generate and output a random number
+	//cout << "Random number: " << dis(gen) << endl;
+
+	return dis(gen);
 }

@@ -8,6 +8,6 @@ using std::cout;
 int main()
 {
     Reader reader;
-    const char* upper = reader.toUpper("5d20");
-    cout << reader.translate(upper);
+    const char* upper = reader.toUpper("10d20");
+    reader.translate(upper);
 }
