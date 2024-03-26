@@ -6,19 +6,38 @@
 using std::endl;
 using std::cout;
 
+const char* Reader::removeWhiteSpace(const char* input) {
+	if (input == nullptr) // Check if the input pointer is null
+		return nullptr;
+
+	int len = strlen(input);
+	char* result = new char[len + 1]; // Allocate memory for the modified string
+	int index = 0;
+
+	for (int i = 0; i < len; i++) {
+		if (!isspace(input[i])) {
+			result[index++] = input[i];
+		}
+	}
+	result[index] = '\0'; // Add null terminator
+	cout << "Removed white space: " << result << endl;
+	return result;
+}
+
 const char* Reader::toUpper(const char* input)
 {
 	// Copy input to new string
 	size_t inputLength = std::strlen(input) + 1;
-	char* modified = new char[inputLength];
-	strcpy_s(modified, inputLength, input);
+	char* result = new char[inputLength];
+	strcpy_s(result, inputLength, input);
 
 	// Convert each character to uppercase
 	for (int i = 0; i < inputLength; ++i)
 	{
-		modified[i] = std::toupper(modified[i]);
+		result[i] = std::toupper(result[i]);
 	}
-	return modified;
+	cout << "In uppercase: " << result << endl;
+	return result;
 }
 
 int Reader::roll(const char* rollStr)
@@ -29,6 +48,8 @@ int Reader::roll(const char* rollStr)
 		std::cerr << "Invalid roll entered.";
 		return -1;
 	}
+
+	rollStr = toUpper(removeWhiteSpace(rollStr));
 
 	int diceCount, diceSides;
 	const char* firstD = std::strchr(rollStr, 'D');

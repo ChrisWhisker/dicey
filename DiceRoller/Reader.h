@@ -2,6 +2,9 @@
 class Reader
 {
 public:
+	// Remove white space characters from a string
+	const char* removeWhiteSpace(const char* input);
+
 	// Return a copy of the input string with its letters in all caps
 	const char* toUpper(const char* input);
 

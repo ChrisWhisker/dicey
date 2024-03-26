@@ -8,6 +8,5 @@ using std::cout;
 int main()
 {
     Reader reader;
-    const char* upper = reader.toUpper("10d20");
-    reader.roll(upper);
+    reader.roll("10 d20");
 }
