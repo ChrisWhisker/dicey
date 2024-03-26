@@ -6,7 +6,6 @@
 using std::endl;
 using std::cout;
 
-// Return a copy of the input string with its letters in all caps
 const char* Reader::toUpper(const char* input)
 {
 	// Copy input to new string
@@ -22,7 +21,55 @@ const char* Reader::toUpper(const char* input)
 	return modified;
 }
 
-// Function to get a substring of a C-style string
+int Reader::roll(const char* rollStr)
+{
+	// Sanity check
+	if (rollStr == nullptr)
+	{
+		std::cerr << "Invalid roll entered.";
+		return -1;
+	}
+
+	int diceCount, diceSides;
+	const char* firstD = std::strchr(rollStr, 'D');
+	if (firstD == nullptr) // No 'D' in text
+	{
+		std::cerr << "Invalid roll entered.";
+		return -1;
+	}
+
+	int firstDIndex = firstD - rollStr;
+
+	if (firstDIndex == 0) // 'D' is the first character
+	{
+		diceCount = 1;
+	}
+	else // 'D' is not the first character
+	{
+		// Get number of dice to roll
+		const char* diceCountStr = getSubstring(rollStr, 0, firstDIndex);
+		diceCount = toInt(diceCountStr);
+		if (diceCount < 1)
+		{
+			std::cerr << "Invalid number of dice.";
+			return -1;
+		}
+	}
+
+	// Get dice number of sides
+	const char* diceSidesStr = getSubstring(rollStr, firstDIndex + 1, std::strlen(rollStr) - firstDIndex);
+	diceSides = toInt(diceSidesStr);
+	if (diceSides < 1)
+	{
+		std::cerr << "Invalid number of sides.";
+		return -1;
+	}
+
+	int rolled = roll(diceCount, diceSides);
+	cout << "You rolled: " << rolled << endl;
+	return rolled;
+}
+
 char* Reader::getSubstring(const char* str, int start, int length)
 {
 	if (str == nullptr || start < 0 || length < 0) // Check for null pointer and invalid start/length
@@ -44,62 +91,11 @@ char* Reader::getSubstring(const char* str, int start, int length)
 	return sub;
 }
 
-// Translate the all-caps input into human-readable dice rolls
-const char* Reader::roll(const char* rollStr)
+int Reader::toInt(const char* input)
 {
-	// Sanity check
-	if (rollStr == nullptr)
-	{
-		return "Invalid roll entered.";
-	}
-
-	int diceCount, diceSides;
-	const char* firstD = std::strchr(rollStr, 'D');
-	if (firstD == nullptr) // No 'D' in text
-	{
-		return "Invalid roll entered.";
-	}
-
-	int firstDIndex = firstD - rollStr;
-
-	if (firstDIndex == 0) // 'D' is the first character
-	{
-		diceCount = 1;
-		//return "1";
-	}
-	else // 'D' is not the first character
-	{
-		// Get number of dice to roll
-		const char* diceCountStr = getSubstring(rollStr, 0, firstDIndex);
-		try
-		{
-			diceCount = std::stoi(diceCountStr);
-
-			if (diceCount < 1)
-			{
-				return "Invalid number of dice.";
-			}
-		}
-		catch (const std::invalid_argument& ia)
-		{
-			std::cerr << "Invalid argument: " << ia.what() << endl;
-		}
-		catch (const std::out_of_range& oor)
-		{
-			std::cerr << "Out of range error: " << oor.what() << endl;
-		}
-	}
-
-	// Get dice number of sides
-	const char* diceSidesStr = getSubstring(rollStr, firstDIndex + 1, std::strlen(rollStr) - firstDIndex);
 	try
 	{
-		diceSides = std::stoi(diceSidesStr);
-
-		if (diceSides < 1)
-		{
-			return "Invalid number of sides.";
-		}
+		return std::stoi(input);
 	}
 	catch (const std::invalid_argument& ia)
 	{
@@ -109,11 +105,6 @@ const char* Reader::roll(const char* rollStr)
 	{
 		std::cerr << "Out of range error: " << oor.what() << endl;
 	}
-
-	int rolled = roll(diceCount, diceSides);
-	cout << "You rolled: " << rolled << endl;
-
-	return diceSidesStr;
 }
 
 int Reader::roll(int diceCount, int sides)
