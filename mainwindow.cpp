@@ -17,7 +17,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     Reader reader;
-    // reader.roll()
     QString x = ui->lineEdit->text();
     const char* cStyleString = x.toUtf8().constData();
     int result = reader.roll(cStyleString);

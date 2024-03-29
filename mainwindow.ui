@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>181</width>
+    <width>231</width>
     <height>244</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Dice Roller</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>160</width>
+      <width>211</width>
       <height>197</height>
      </rect>
     </property>
@@ -48,7 +48,7 @@
           <string/>
          </property>
          <property name="placeholderText">
-          <string> 4d20</string>
+          <string>d20 / 4d6</string>
          </property>
         </widget>
        </item>
@@ -126,8 +126,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>181</width>
-     <height>25</height>
+     <width>231</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
