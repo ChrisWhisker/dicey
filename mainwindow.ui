@@ -40,7 +40,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="diceInput">
          <property name="statusTip">
           <string/>
          </property>
@@ -109,7 +109,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="textEdit">
+      <widget class="QTextEdit" name="subtotalOut">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -126,7 +126,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="resultOut">
        <property name="readOnly">
         <bool>true</bool>
        </property>
