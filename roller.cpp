@@ -8,16 +8,16 @@ using std::endl;
 
 Roller::Roller() {}
 
-QString Roller::roll(QString rollStr)
+QString Roller::roll(QString rollStr, QString &subtotalStr)
 {
     // Sanity check
-    if (rollStr == nullptr)
+    if (rollStr == nullptr || rollStr == "")
     {
         std::cerr << "Roll string is null." << endl;
         return "Invalid roll entered.";
     }
 
-    rollStr = rollStr.simplified().toUpper(); // TODO Remove white space in middle of string also
+    rollStr = rollStr.simplified().toUpper();
 
     int diceCount, diceSides;
     int firstDIndex = rollStr.indexOf('D');
@@ -32,7 +32,6 @@ QString Roller::roll(QString rollStr)
     else // 'D' is not the first character
     {
         // Get number of dice to roll
-        // const char* diceCountStr = getSubstring(rollStr, 0, firstDIndex);
         QString diceCountStr = rollStr.mid(0, firstDIndex);
         bool success;
         diceCount = diceCountStr.toInt(&success);
@@ -44,7 +43,6 @@ QString Roller::roll(QString rollStr)
     }
 
     // Get dice number of sides
-    // const char* diceSidesStr = getSubstring(rollStr, firstDIndex + 1, std::strlen(rollStr) - firstDIndex);
     QString diceSidesStr = rollStr.mid(firstDIndex + 1);
     bool success;
     diceSides = diceSidesStr.toInt(&success);
@@ -54,25 +52,27 @@ QString Roller::roll(QString rollStr)
         return "Invalid number of sides.";
     }
 
-    QString result = roll(diceCount, diceSides);
-    return result;
+    int result = roll(diceCount, diceSides, subtotalStr);
+    return QString::number(result);
 }
 
-QString Roller::roll(int diceCount, int sides)
+int Roller::roll(int diceCount, int sides, QString &subtotalStr)
 {
-    QString result = "";
     int total = 0;
 
     for (int i = 0; i < diceCount; i++)
     {
         int roll = rollDie(sides);
-        result += "D" + QString::number(sides) + " #" + QString::number(i + 1) + " -> " + QString::number(roll) + "\n";
+        subtotalStr += "D" + QString::number(sides) + " #" + QString::number(i + 1) + " -> " + QString::number(roll);
+        if (i < diceCount - 1)
+        {
+            subtotalStr += "\n";
+        }
         cout << "Die " << i << " rolled " << roll << endl;
         total += roll;
     }
 
-    result += "\nTOTAL: " + QString::number(total);
-    return result;
+    return total;
 }
 
 int Roller::rollDie(int sides)

@@ -19,8 +19,10 @@ void MainWindow::on_pushButton_clicked()
 {
     Roller roller;
     QString input = ui->lineEdit->text();
-    QString result = roller.roll(input);
-    ui->textEdit->setText(result);
+    QString subtotalStr;
+    QString result = roller.roll(input, subtotalStr);
+    ui->textEdit->setText(subtotalStr);
     // Scroll to bottom of result panel
     ui->textEdit->verticalScrollBar()->setValue(ui->textEdit->verticalScrollBar()->maximum());
+    ui->lineEdit_2->setText(result);
 }

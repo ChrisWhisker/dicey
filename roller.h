@@ -9,10 +9,10 @@ public:
     Roller();
 
     // Roll dice and return the result based on a roll-string
-    QString roll(QString rollStr);
+    QString roll(QString rollStr, QString &subtotalStr);
 
     // Get the result of rolling a <sides>-sided die <diceCount> times
-    QString roll(int diceCount, int sides);
+    int roll(int diceCount, int sides, QString &subtotalStr);
 
     // Get the result of rolling a single <sides>-sided die
     int rollDie(int sides);
