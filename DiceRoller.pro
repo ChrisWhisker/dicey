@@ -11,11 +11,13 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    reader.cpp
+    reader.cpp \
+    roller.cpp
 
 HEADERS += \
     mainwindow.h \
-    reader.h
+    reader.h \
+    roller.h
 
 FORMS += \
     mainwindow.ui

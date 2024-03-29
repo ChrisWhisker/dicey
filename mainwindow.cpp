@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "reader.h"
+#include "roller.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,9 +16,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    Reader reader;
-    QString x = ui->lineEdit->text();
-    const char* cStyleString = x.toUtf8().constData();
-    int result = reader.roll(cStyleString);
-    ui->textEdit->setText(QString::number(result));
+    Roller roller;
+    QString input = ui->lineEdit->text();
+    QString result = roller.roll(input);
+    ui->textEdit->setText(result);
 }

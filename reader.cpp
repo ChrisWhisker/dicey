@@ -3,7 +3,6 @@
 #include <cstring>
 #include <iostream>
 #include <string>
-#include <random>
 
 using std::cout;
 using std::endl;
@@ -42,57 +41,7 @@ const char* Reader::toUpper(const char* input)
     return result;
 }
 
-int Reader::roll(const char* rollStr)
-{
-    // Sanity check
-    if (rollStr == nullptr)
-    {
-        std::cerr << "Invalid roll entered.";
-        return -1;
-    }
 
-    rollStr = toUpper(removeWhiteSpace(rollStr));
-
-    int diceCount, diceSides;
-    const char* firstD = std::strchr(rollStr, 'D');
-    if (firstD == nullptr) // No 'D' in text
-    {
-        std::cerr << "Invalid roll entered.";
-        delete rollStr;
-        return -1;
-    }
-
-    int firstDIndex = firstD - rollStr;
-
-    if (firstDIndex == 0) // 'D' is the first character
-    {
-        diceCount = 1;
-    }
-    else // 'D' is not the first character
-    {
-        // Get number of dice to roll
-        const char* diceCountStr = getSubstring(rollStr, 0, firstDIndex);
-        diceCount = toInt(diceCountStr);
-        if (diceCount < 1)
-        {
-            std::cerr << "Invalid number of dice.";
-            return -1;
-        }
-    }
-
-    // Get dice number of sides
-    const char* diceSidesStr = getSubstring(rollStr, firstDIndex + 1, std::strlen(rollStr) - firstDIndex);
-    diceSides = toInt(diceSidesStr);
-    if (diceSides < 1)
-    {
-        std::cerr << "Invalid number of sides.";
-        return -1;
-    }
-
-    int rolled = roll(diceCount, diceSides);
-    cout << "You rolled: " << rolled << endl;
-    return rolled;
-}
 
 char* Reader::getSubstring(const char* str, int start, int length)
 {
@@ -130,35 +79,4 @@ int Reader::toInt(const char* input)
         std::cerr << "Out of range error: " << oor.what() << endl;
     }
     return -1;
-}
-
-int Reader::roll(int diceCount, int sides)
-{
-    int total = 0;
-
-    for (int i = 0; i < diceCount; i++)
-    {
-        int roll = rollDie(sides);
-        cout << "Die " << i << " rolled " << roll << endl;
-        total += roll;
-    }
-
-    return total;
-}
-
-int Reader::rollDie(int sides)
-{
-    // Create a random device to seed the random number generator
-    std::random_device rd;
-
-    // Create a random number engine using the random device as the seed
-    std::mt19937 gen(rd());
-
-    // Create a uniform distribution for integers from 1 to 20
-    std::uniform_int_distribution<> dis(1, sides);
-
-    // Generate and output a random number
-    //cout << "Random number: " << dis(gen) << endl;
-
-    return dis(gen);
 }
