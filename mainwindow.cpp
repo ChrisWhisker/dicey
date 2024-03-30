@@ -18,10 +18,10 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     Roller roller;
-    QString input = ui->diceInput->text();
     QString subtotalStr;
-    QString result = roller.roll(input, subtotalStr);
+    QString result = roller.roll(ui->diceInput->text(), subtotalStr);
     ui->subtotalOut->setText(subtotalStr);
+
     // Scroll to bottom of result panel
     ui->subtotalOut->verticalScrollBar()->setValue(ui->subtotalOut->verticalScrollBar()->maximum());
     ui->resultOut->setText(result);

@@ -14,17 +14,26 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
     if (rollStr == nullptr || rollStr == "")
     {
         std::cerr << "Roll string is null." << endl;
-        return "Invalid roll entered.";
+        "Invalid roll entered.";
+        return "";
     }
 
     rollStr = rollStr.simplified().toUpper();
+
+    if (rollStr.contains('+') || rollStr.contains('-') || rollStr.contains('*') || rollStr.contains('/'))
+    {
+        std::cerr << "Mathematical operations are not yet supported." << endl;
+        subtotalStr = "Mathematical operations are not yet supported.";
+        return "";
+    }
 
     int diceCount, diceSides;
     int firstDIndex = rollStr.indexOf('D');
     if (firstDIndex == -1) // No 'D' in text
     {
         std::cerr << "No D found in roll string." << endl;
-        return "Invalid roll entered.";
+        subtotalStr = "Invalid roll entered.";
+        return "";
     } else if (firstDIndex == 0) // 'D' is the first character
     {
         diceCount = 1;
@@ -38,7 +47,8 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
         if (!success)
         {
             std::cerr << "Invalid number of dice." << endl;
-            return "Invalid number of dice.";
+            subtotalStr = "Invalid number of dice.";
+            return "";
         }
     }
 
@@ -49,7 +59,8 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
     if (!success || diceSides < 1)
     {
         std::cerr << "Invalid number of sides." << endl;
-        return "Invalid number of sides.";
+        subtotalStr = "Invalid number of sides.";
+        return "";
     }
 
     int result = roll(diceCount, diceSides, subtotalStr);
