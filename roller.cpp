@@ -2,7 +2,10 @@
 
 #include <iostream>
 #include <random>
-
+#include <QCoreApplication>
+#include <QDebug>
+#include <QRegularExpression>
+#include <QString>
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -18,13 +21,55 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
     }
 
     rollStr = rollStr.simplified().toUpper();
+    static QRegularExpression mathOperators("[+\\-*/]");
+    QStringList tokens = rollStr.split(mathOperators, Qt::SkipEmptyParts);
 
-    if (rollStr.contains('+') || rollStr.contains('-') || rollStr.contains('*') || rollStr.contains('/'))
+    // Sanity check token list
+    if (tokens.empty())
     {
-        cerr << "Mathematical operations are not yet supported." << endl;
-        subtotalStr = "Mathematical operations are not yet supported.";
+        cerr << "No tokens found." << endl;
+        subtotalStr = "Invalid roll entered.";
         return "";
     }
+
+    QStringList operators;
+    int currentIndex = 0;
+    for (int i = 0; i < tokens.length(); i++) {
+         // Sanity check each token
+        qDebug() << "token idx" << i << ": " << tokens[i];
+        if (tokens[i].length() < 1) {
+            cerr << "Empty token found." << endl;
+            subtotalStr = "Invalid roll entered.";
+            return "";
+        }
+
+        int tokenIndex = rollStr.indexOf(tokens[i], currentIndex);
+
+        if (i == 0)
+        {
+            continue;
+        }
+
+        // Extract the operator character preceding the current token
+        QString op = rollStr.mid(tokenIndex - 1, 1);
+
+        // Add the operator to the list
+        operators.append(op);
+
+        // Move the current index for the next iteration
+        currentIndex = tokenIndex + tokens[i].length();
+
+        qDebug() << "operator between tokens " << i-1 << " and " << i << ": " << op;
+    }
+
+    // TODO Now that we have a list of tokens (operands) and operators, we can use them.
+
+    // if (rollStr.contains('+') || rollStr.contains('-') || rollStr.contains('*') || rollStr.contains('/'))
+    // {
+    //     cerr << "Mathematical operations are not yet supported." << endl;
+    //     subtotalStr = "Mathematical operations are not yet supported.";
+    //     return "";
+    // }
 
     int diceCount, diceSides;
     int firstDIndex = rollStr.indexOf('D');
