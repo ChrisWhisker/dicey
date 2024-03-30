@@ -12,12 +12,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     reader.cpp \
-    roller.cpp
+    roller.cpp \
+    rollvalidator.cpp
 
 HEADERS += \
     mainwindow.h \
     reader.h \
-    roller.h
+    roller.h \
+    rollvalidator.h
 
 FORMS += \
     mainwindow.ui

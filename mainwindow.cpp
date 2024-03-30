@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "roller.h"
+#include "rollvalidator.h"
 #include "QScrollBar"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -8,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->diceInput->setValidator(new RollValidator(ui->diceInput));
 }
 
 MainWindow::~MainWindow()
