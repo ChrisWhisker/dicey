@@ -3,6 +3,7 @@
 #include <iostream>
 #include <random>
 
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -13,8 +14,8 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
     // Sanity check
     if (rollStr == nullptr || rollStr == "")
     {
-        std::cerr << "Roll string is null." << endl;
-        "Invalid roll entered.";
+        cerr << "Roll string is null." << endl;
+        subtotalStr = "Invalid roll entered.";
         return "";
     }
 
@@ -22,7 +23,7 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
 
     if (rollStr.contains('+') || rollStr.contains('-') || rollStr.contains('*') || rollStr.contains('/'))
     {
-        std::cerr << "Mathematical operations are not yet supported." << endl;
+        cerr << "Mathematical operations are not yet supported." << endl;
         subtotalStr = "Mathematical operations are not yet supported.";
         return "";
     }
@@ -31,7 +32,7 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
     int firstDIndex = rollStr.indexOf('D');
     if (firstDIndex == -1) // No 'D' in text
     {
-        std::cerr << "No D found in roll string." << endl;
+        cerr << "No D found in roll string." << endl;
         subtotalStr = "Invalid roll entered.";
         return "";
     } else if (firstDIndex == 0) // 'D' is the first character
@@ -46,7 +47,7 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
         diceCount = diceCountStr.toInt(&success);
         if (!success)
         {
-            std::cerr << "Invalid number of dice." << endl;
+            cerr << "Invalid number of dice." << endl;
             subtotalStr = "Invalid number of dice.";
             return "";
         }
@@ -58,7 +59,7 @@ QString Roller::roll(QString rollStr, QString &subtotalStr)
     diceSides = diceSidesStr.toInt(&success);
     if (!success || diceSides < 1)
     {
-        std::cerr << "Invalid number of sides." << endl;
+        cerr << "Invalid number of sides." << endl;
         subtotalStr = "Invalid number of sides.";
         return "";
     }
@@ -79,10 +80,9 @@ int Roller::roll(int diceCount, int sides, QString &subtotalStr)
         {
             subtotalStr += "\n";
         }
-        cout << "Die " << i << " rolled " << roll << endl;
+        cout << "Die #" << i + 1 << " rolled " << roll << endl;
         total += roll;
     }
-
     return total;
 }
 
@@ -98,7 +98,7 @@ int Roller::rollDie(int sides)
     std::uniform_int_distribution<> dis(1, sides);
 
     // Generate and output a random number
-    //cout << "Random number: " << dis(gen) << endl;
+    // cout << "Random number: " << dis(gen) << endl;
 
     return dis(gen);
 }
