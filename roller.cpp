@@ -7,8 +7,6 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
-Roller::Roller() {}
-
 QString Roller::roll(QString rollStr, QString &subtotalStr)
 {
     // Sanity check

@@ -17,7 +17,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    Roller roller;
+    Roller& roller = Roller::getInstance();
     QString subtotalStr;
     QString result = roller.roll(ui->diceInput->text(), subtotalStr);
     ui->subtotalOut->setText(subtotalStr);
