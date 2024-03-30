@@ -78,7 +78,7 @@ int Roller::roll(int diceCount, int sides, QString &subtotalStr)
         {
             subtotalStr += "\n";
         }
-        cout << "Die #" << i + 1 << " rolled " << roll << endl;
+        cout << "D" << sides << " #" << i + 1 << " rolled " << roll << endl;
         total += roll;
     }
     return total;
@@ -87,16 +87,11 @@ int Roller::roll(int diceCount, int sides, QString &subtotalStr)
 int Roller::rollDie(int sides)
 {
     // Create a random device to seed the random number generator
-    std::random_device rd;
-
+    static std::random_device rd;
     // Create a random number engine using the random device as the seed
-    std::mt19937 gen(rd());
-
+    static std::mt19937 gen(rd());
     // Create a uniform distribution for integers from 1 to 20
-    std::uniform_int_distribution<> dis(1, sides);
-
-    // Generate and output a random number
-    // cout << "Random number: " << dis(gen) << endl;
-
+    static std::uniform_int_distribution<> dis(1, sides);
+    // Generate a random number
     return dis(gen);
 }
