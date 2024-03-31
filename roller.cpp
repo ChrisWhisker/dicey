@@ -91,7 +91,7 @@ int Roller::rollDie(int sides)
     // Create a random number engine using the random device as the seed
     static std::mt19937 gen(rd());
     // Create a uniform distribution for integers from 1 to 20
-    static std::uniform_int_distribution<> dis(1, sides);
+    std::uniform_int_distribution<> dis(1, sides);
     // Generate a random number
     return dis(gen);
 }
