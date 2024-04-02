@@ -1,6 +1,7 @@
-# Dicey
 
-![image](https://github.com/ChrisWhisker/dice-roller/assets/6521800/894a13e7-2d8b-4ace-a1fc-f235c529926c)
+![dicey-logo](https://github.com/ChrisWhisker/dicey/assets/6521800/7b1ec0c7-952f-4f8b-a312-0e78005ce879)
+
+# Dicey
 
 ## Overview
 Dicey is a simple dice roller Windows application written in C++ with a Qt Creator 12.0.2 GUI. It allows users to roll one or more dice with different numbers of sides and view the results.
@@ -11,6 +12,8 @@ To run the application, follow these steps:
 2. Clone or download the repository to your local machine.
 3. Open the project in Qt Creator.
 4. Build and run the project.
+
+![image](https://github.com/ChrisWhisker/dicey/assets/6521800/95e6db6a-2a02-4e0f-90f8-306c0251cd14)
 
 ## Usage
 1. Upon launching the application, you'll see the main window with an editable text box at the top labeled "Dice:".
